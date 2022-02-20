@@ -33,7 +33,7 @@ function handleError(error: unknown): ErrorResult<never> {
   return {
     type: 'error',
     error: {
-      message: error.response?.data.error.message ?? 'An unknown error occurred.',
+      message: (error as any).response?.data.error.message ?? 'An unknown error occurred.',
     },
   };
 }
@@ -172,25 +172,3 @@ class Client {
 }
 
 export default Client;
-
-async function run() {
-  const client = new Client('http://localhost:3000');
-  {
-    const res = await client.login('omar', 'admina');
-    console.log(res);
-  }
-
-  {
-    const res = await client.getProjects();
-    console.log(res);
-
-    if (res.type === 'success') {
-      res.data.forEach(async (d) => {
-        const res_ = await client.getProject(d._id);
-        console.log(res_);
-      });
-    }
-  }
-}
-
-run();
