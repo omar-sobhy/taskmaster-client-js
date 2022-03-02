@@ -155,7 +155,7 @@ class Client {
   async createSections(
     projectId: string,
     sections: { name: string, colour: string, icon: string }[],
-  ) {
+  ): Promise<ResultType<Section[]>> {
     try {
       const response = await this.axios.post(`${this.basePath}/projects/:projectId/sections`, {
         sections,
@@ -164,6 +164,22 @@ class Client {
       return {
         type: 'success',
         data: response.data.sections,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async createProject(name: string, background: string): Promise<ResultType<Project>> {
+    try {
+      const response = await this.axios.post(`${this.basePath}/projects/`, {
+        name,
+        background,
+      });
+
+      return {
+        type: 'success',
+        data: response.data.project,
       };
     } catch (error) {
       return handleError(error);
