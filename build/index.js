@@ -153,6 +153,23 @@ class Client {
             }
         });
     }
+    createProject(name, background) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.post(`${this.basePath}/projects/`, {
+                    name,
+                    background,
+                });
+                return {
+                    type: 'success',
+                    data: response.data.project,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=index.js.map

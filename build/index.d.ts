@@ -32,9 +32,7 @@ declare class Client {
         name: string;
         colour: string;
         icon: string;
-    }[]): Promise<ErrorResult<never> | {
-        type: string;
-        data: any;
-    }>;
+    }[]): Promise<ResultType<Section[]>>;
+    createProject(name: string, background: string): Promise<ResultType<Project>>;
 }
 export default Client;
