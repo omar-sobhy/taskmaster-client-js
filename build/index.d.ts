@@ -2,6 +2,7 @@ import { Axios } from 'axios';
 import Project from './entities/Project';
 import Section from './entities/Section';
 import { User } from './entities/User';
+import Task from './entities/Task';
 interface SuccessResult<T> {
     type: 'success';
     data: T;
@@ -34,5 +35,14 @@ declare class Client {
         icon: string;
     }[]): Promise<ResultType<Section[]>>;
     createProject(name: string, background: string): Promise<ResultType<Project>>;
+    createTask(sectionId: string, name: string, dueDate?: string, assignee?: string): Promise<ResultType<Task>>;
+    getTasks(sectionId: string): Promise<ResultType<Task[]>>;
+    getTaskData(taskId: string): Promise<ResultType<Task>>;
+    updateTask(taskId: string, { assignee, dueDate, name, description, }: Partial<{
+        assignee: string;
+        dueDate: string;
+        name: string;
+        description?: string;
+    }>): Promise<ResultType<Task>>;
 }
 export default Client;

@@ -16,7 +16,8 @@ const axios_1 = __importDefault(require("axios"));
 const axios_cookiejar_support_1 = require("axios-cookiejar-support");
 const tough_cookie_1 = require("tough-cookie");
 function handleError(error) {
-    var _a, _b;
+    var _a, _b, _c;
+    console.log('error', error);
     if (!axios_1.default.isAxiosError(error)) {
         return {
             type: 'error',
@@ -28,7 +29,7 @@ function handleError(error) {
     return {
         type: 'error',
         error: {
-            message: (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data.error.message) !== null && _b !== void 0 ? _b : 'An unknown error occurred.',
+            message: (_c = (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data.error) === null || _b === void 0 ? void 0 : _b.message) !== null && _c !== void 0 ? _c : 'An unknown error occurred.',
         },
     };
 }
@@ -37,11 +38,13 @@ class Client {
         this.basePath = basePath;
         this.options = options;
         const jar = new tough_cookie_1.CookieJar();
+        console.log('Options', options);
         if (this.options.authorizationCookie) {
-            jar.setCookieSync(this.options.authorizationCookie, `${this.basePath}/`);
+            jar.setCookieSync(`Authorization=${this.options.authorizationCookie}`, `${this.basePath}/`);
         }
         this.axios = (0, axios_cookiejar_support_1.wrapper)(axios_1.default.create({
             jar,
+            withCredentials: true,
         }));
     }
     signup(username, password, email) {
@@ -69,9 +72,10 @@ class Client {
                     username,
                     password,
                 });
+                console.log('hello', response.headers);
                 return {
                     type: 'success',
-                    data: response.data.user,
+                    data: Object.assign({}, response.data.user),
                 };
             }
             catch (error) {
@@ -126,7 +130,7 @@ class Client {
     getProjectSections(projectId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield this.axios.get(`${this.basePath}/projects/${projectId}`);
+                const response = yield this.axios.get(`${this.basePath}/projects/${projectId}/sections`);
                 return {
                     type: 'success',
                     data: response.data.sections,
@@ -140,7 +144,7 @@ class Client {
     createSections(projectId, sections) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield this.axios.post(`${this.basePath}/projects/:projectId/sections`, {
+                const response = yield this.axios.post(`${this.basePath}/projects/${projectId}/sections`, {
                     sections,
                 });
                 return {
@@ -163,6 +167,72 @@ class Client {
                 return {
                     type: 'success',
                     data: response.data.project,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
+    createTask(sectionId, name, dueDate, assignee) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = { name };
+                if (dueDate)
+                    data.dueDate = dueDate;
+                if (assignee)
+                    data.assigne = assignee;
+                const response = yield this.axios.post(`${this.basePath}/sections/${sectionId}/tasks`, data);
+                return {
+                    type: 'success',
+                    data: response.data.task,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
+    getTasks(sectionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.get(`${this.basePath}/sections/${sectionId}/tasks`);
+                return {
+                    type: 'success',
+                    data: response.data.tasks,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
+    getTaskData(taskId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.get(`${this.basePath}/tasks/${taskId}`);
+                return {
+                    type: 'success',
+                    data: response.data.task,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
+    updateTask(taskId, { assignee, dueDate, name, description, }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.patch(`${this.basePath}/tasks/${taskId}`, {
+                    assignee,
+                    dueDate,
+                    name,
+                    description,
+                });
+                return {
+                    type: 'success',
+                    data: response.data.task,
                 };
             }
             catch (error) {
