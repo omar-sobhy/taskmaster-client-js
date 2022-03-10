@@ -4,6 +4,7 @@ import { CookieJar } from 'tough-cookie';
 import Project from './entities/Project';
 import Section from './entities/Section';
 import { User } from './entities/User';
+import Task from './entities/Task';
 
 interface SuccessResult<T> {
   type: 'success'
@@ -21,6 +22,7 @@ interface ErrorResult<T> {
 type ResultType<T, E = never> = SuccessResult<T> | ErrorResult<E>;
 
 function handleError(error: unknown): ErrorResult<never> {
+  console.log('error', error);
   if (!AxiosStatic.isAxiosError(error)) {
     return {
       type: 'error',
@@ -33,7 +35,7 @@ function handleError(error: unknown): ErrorResult<never> {
   return {
     type: 'error',
     error: {
-      message: (error as any).response?.data.error.message ?? 'An unknown error occurred.',
+      message: (error as any).response?.data.error?.message ?? 'An unknown error occurred.',
     },
   };
 }
@@ -56,12 +58,14 @@ class Client {
 
     const jar = new CookieJar();
 
+    console.log('Options', options);
     if (this.options.authorizationCookie) {
-      jar.setCookieSync(this.options.authorizationCookie, `${this.basePath}/`);
+      jar.setCookieSync(`Authorization=${this.options.authorizationCookie}`, `${this.basePath}/`);
     }
 
     this.axios = wrapper(AxiosStatic.create({
       jar,
+      withCredentials: true,
     }));
   }
 
@@ -82,16 +86,20 @@ class Client {
     }
   }
 
-  async login(username: string, password: string): Promise<ResultType<User>> {
+  async login(username: string, password: string):
+  Promise<ResultType<User>> {
     try {
       const response = await this.axios.post(`${this.basePath}/users/login`, {
         username,
         password,
       });
 
+      console.log('hello', response.headers);
       return {
         type: 'success',
-        data: response.data.user,
+        data: {
+          ...response.data.user,
+        },
       };
     } catch (error) {
       return handleError(error);
@@ -141,7 +149,7 @@ class Client {
 
   async getProjectSections(projectId: string): Promise<ResultType<Section[]>> {
     try {
-      const response = await this.axios.get(`${this.basePath}/projects/${projectId}`);
+      const response = await this.axios.get(`${this.basePath}/projects/${projectId}/sections`);
 
       return {
         type: 'success',
@@ -157,7 +165,7 @@ class Client {
     sections: { name: string, colour: string, icon: string }[],
   ): Promise<ResultType<Section[]>> {
     try {
-      const response = await this.axios.post(`${this.basePath}/projects/:projectId/sections`, {
+      const response = await this.axios.post(`${this.basePath}/projects/${projectId}/sections`, {
         sections,
       });
 
@@ -180,6 +188,77 @@ class Client {
       return {
         type: 'success',
         data: response.data.project,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async createTask(
+    sectionId: string,
+    name: string,
+    dueDate?: string,
+    assignee?: string,
+  ): Promise<ResultType<Task>> {
+    try {
+      const data: Record<string, string> = { name };
+      if (dueDate) data.dueDate = dueDate;
+      if (assignee) data.assigne = assignee;
+
+      const response = await this.axios.post(`${this.basePath}/sections/${sectionId}/tasks`, data);
+
+      return {
+        type: 'success',
+        data: response.data.task,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async getTasks(sectionId: string): Promise<ResultType<Task[]>> {
+    try {
+      const response = await this.axios.get(`${this.basePath}/sections/${sectionId}/tasks`);
+
+      return {
+        type: 'success',
+        data: response.data.tasks,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async getTaskData(taskId: string): Promise<ResultType<Task>> {
+    try {
+      const response = await this.axios.get(`${this.basePath}/tasks/${taskId}`);
+
+      return {
+        type: 'success',
+        data: response.data.task,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async updateTask(
+    taskId: string,
+    {
+      assignee, dueDate, name, description,
+    }: Partial<{ assignee: string, dueDate: string, name: string, description?: string }>,
+  ) : Promise<ResultType<Task>> {
+    try {
+      const response = await this.axios.patch(`${this.basePath}/tasks/${taskId}`, {
+        assignee,
+        dueDate,
+        name,
+        description,
+      });
+
+      return {
+        type: 'success',
+        data: response.data.task,
       };
     } catch (error) {
       return handleError(error);
