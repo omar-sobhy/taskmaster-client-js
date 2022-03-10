@@ -35,7 +35,7 @@ function handleError(error: unknown): ErrorResult<never> {
   return {
     type: 'error',
     error: {
-      message: (error as any).response?.data.error?.message ?? 'An unknown error occurred.',
+      message: error.response?.data.error?.message ?? 'An unknown error occurred.',
     },
   };
 }
