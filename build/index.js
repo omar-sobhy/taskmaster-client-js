@@ -157,6 +157,24 @@ class Client {
             }
         });
     }
+    updateSection(sectionId, { name, colour, icon }) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.patch(`${this.basePath}/${sectionId}`, {
+                    name,
+                    colour,
+                    icon,
+                });
+                return {
+                    type: 'success',
+                    data: response.data.section,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
     createProject(name, background) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

@@ -178,6 +178,26 @@ class Client {
     }
   }
 
+  async updateSection(
+    sectionId: string,
+    { name, colour, icon }: Partial<{ name: string, colour: string, icon: string }>,
+  ): Promise<ResultType<Section>> {
+    try {
+      const response = await this.axios.patch(`${this.basePath}/${sectionId}`, {
+        name,
+        colour,
+        icon,
+      });
+
+      return {
+        type: 'success',
+        data: response.data.section,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
   async createProject(name: string, background: string): Promise<ResultType<Project>> {
     try {
       const response = await this.axios.post(`${this.basePath}/projects/`, {
