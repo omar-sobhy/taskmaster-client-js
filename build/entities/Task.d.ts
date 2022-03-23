@@ -1,4 +1,3 @@
-import ChecklistItem from './ChecklistItem';
 import HistoryItem from './HistoryItem';
 import Tag from './Tag';
 interface Task {
@@ -10,8 +9,8 @@ interface Task {
     created: Date;
     updated: Date;
     watchers: string[];
-    checklistItems: ChecklistItem[];
-    comments: Comment[];
+    checklistItems: string[];
+    comments: string[];
     historyItems: HistoryItem[];
     tags: Tag[];
 }
