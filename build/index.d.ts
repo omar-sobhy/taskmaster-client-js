@@ -3,6 +3,7 @@ import Project from './entities/Project';
 import Section from './entities/Section';
 import { User } from './entities/User';
 import Task from './entities/Task';
+import Comment from './entities/Comment';
 interface SuccessResult<T> {
     type: 'success';
     data: T;
@@ -44,10 +45,12 @@ declare class Client {
     getTasks(sectionId: string): Promise<ResultType<Task[]>>;
     getTaskData(taskId: string): Promise<ResultType<Task>>;
     updateTask(taskId: string, { assignee, dueDate, name, description, }: Partial<{
-        assignee: string;
-        dueDate: string;
+        assignee: string | null;
+        dueDate: string | null;
         name: string;
-        description?: string;
+        description: string | null;
     }>): Promise<ResultType<Task>>;
+    addComment(taskId: string, comment: string): Promise<ResultType<Comment>>;
+    getComments(commentIds: string[]): Promise<ResultType<Comment[]>>;
 }
 export default Client;

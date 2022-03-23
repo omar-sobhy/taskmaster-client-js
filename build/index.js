@@ -160,7 +160,7 @@ class Client {
     updateSection(sectionId, { name, colour, icon }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield this.axios.patch(`${this.basePath}/${sectionId}`, {
+                const response = yield this.axios.patch(`${this.basePath}/sections/${sectionId}`, {
                     name,
                     colour,
                     icon,
@@ -242,15 +242,53 @@ class Client {
     updateTask(taskId, { assignee, dueDate, name, description, }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield this.axios.patch(`${this.basePath}/tasks/${taskId}`, {
-                    assignee,
-                    dueDate,
-                    name,
-                    description,
-                });
+                const data = {};
+                if (assignee || assignee === null)
+                    data.assignee = assignee;
+                if (dueDate || dueDate === null)
+                    data.dueDate = dueDate;
+                if (name || name === null)
+                    data.name = name;
+                if (description || description === null)
+                    data.description = description;
+                const response = yield this.axios.patch(`${this.basePath}/tasks/${taskId}`, data);
                 return {
                     type: 'success',
                     data: response.data.task,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
+    addComment(taskId, comment) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.post(`${this.basePath}/tasks/${taskId}/comments`, {
+                    text: comment,
+                });
+                return {
+                    type: 'success',
+                    data: response.data.comment,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
+    getComments(commentIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.get(`${this.basePath}/comments`, {
+                    params: {
+                        commentId: commentIds,
+                    },
+                });
+                return {
+                    type: 'success',
+                    data: response.data.comments,
                 };
             }
             catch (error) {
