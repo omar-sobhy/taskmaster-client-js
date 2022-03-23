@@ -12,8 +12,8 @@ interface Task {
   updated: Date
 
   watchers: string[]
-  checklistItems: ChecklistItem[]
-  comments: Comment[]
+  checklistItems: string[]
+  comments: string[]
   historyItems: HistoryItem[]
   tags: Tag[]
 }
