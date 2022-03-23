@@ -5,6 +5,7 @@ import Project from './entities/Project';
 import Section from './entities/Section';
 import { User } from './entities/User';
 import Task from './entities/Task';
+import Comment from './entities/Comment';
 
 interface SuccessResult<T> {
   type: 'success'
@@ -183,7 +184,7 @@ class Client {
     { name, colour, icon }: Partial<{ name: string, colour: string, icon: string }>,
   ): Promise<ResultType<Section>> {
     try {
-      const response = await this.axios.patch(`${this.basePath}/${sectionId}`, {
+      const response = await this.axios.patch(`${this.basePath}/sections/${sectionId}`, {
         name,
         colour,
         icon,
@@ -266,19 +267,57 @@ class Client {
     taskId: string,
     {
       assignee, dueDate, name, description,
-    }: Partial<{ assignee: string, dueDate: string, name: string, description?: string }>,
+    }: Partial<{
+      assignee: string | null,
+      dueDate: string | null,
+      name: string,
+      description: string | null
+    }>,
   ) : Promise<ResultType<Task>> {
     try {
-      const response = await this.axios.patch(`${this.basePath}/tasks/${taskId}`, {
-        assignee,
-        dueDate,
-        name,
-        description,
-      });
+      const data: Record<string, string | null> = {};
+      if (assignee || assignee === null) data.assignee = assignee;
+      if (dueDate || dueDate === null) data.dueDate = dueDate;
+      if (name || name === null) data.name = name;
+      if (description || description === null) data.description = description;
+
+      const response = await this.axios.patch(`${this.basePath}/tasks/${taskId}`, data);
 
       return {
         type: 'success',
         data: response.data.task,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async addComment(taskId: string, comment: string): Promise<ResultType<Comment>> {
+    try {
+      const response = await this.axios.post(`${this.basePath}/tasks/${taskId}/comments`, {
+        text: comment,
+      });
+
+      return {
+        type: 'success',
+        data: response.data.comment,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
+
+  async getComments(commentIds: string[]): Promise<ResultType<Comment[]>> {
+    try {
+      const response = await this.axios.get(`${this.basePath}/comments`, {
+        params: {
+          commentId: commentIds,
+        },
+      });
+
+      return {
+        type: 'success',
+        data: response.data.comments,
       };
     } catch (error) {
       return handleError(error);
