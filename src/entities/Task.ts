@@ -1,7 +1,3 @@
-import ChecklistItem from './ChecklistItem';
-import HistoryItem from './HistoryItem';
-import Tag from './Tag';
-
 interface Task {
   _id: string
   name: string
@@ -14,8 +10,8 @@ interface Task {
   watchers: string[]
   checklistItems: string[]
   comments: string[]
-  historyItems: HistoryItem[]
-  tags: Tag[]
+  historyItems: string[]
+  tags: string[]
 }
 
 export default Task;

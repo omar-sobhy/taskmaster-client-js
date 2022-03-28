@@ -3,9 +3,12 @@ import { wrapper } from 'axios-cookiejar-support';
 import { CookieJar } from 'tough-cookie';
 import Project from './entities/Project';
 import Section from './entities/Section';
-import { User } from './entities/User';
+import { User, UserWithPassword } from './entities/User';
 import Task from './entities/Task';
 import Comment from './entities/Comment';
+import ChecklistItem from './entities/ChecklistItem';
+import HistoryItem from './entities/HistoryItem';
+import Tag from './entities/Tag';
 
 interface SuccessResult<T> {
   type: 'success'
@@ -326,3 +329,7 @@ class Client {
 }
 
 export default Client;
+
+export {
+  ChecklistItem, Comment, HistoryItem, Project, Section, Tag, Task, User, UserWithPassword,
+};
