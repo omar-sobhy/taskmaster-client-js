@@ -3,7 +3,7 @@ interface Section {
   name: string
   icon: string
   colour: string
-  task: string
+  tasks: Array<string>
 }
 
 export default Section;
