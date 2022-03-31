@@ -55,6 +55,7 @@ declare class Client {
     }>): Promise<ResultType<Task>>;
     addComment(taskId: string, comment: string): Promise<ResultType<Comment>>;
     getComments(commentIds: string[]): Promise<ResultType<Comment[]>>;
+    getTagsData(tagIds: string[]): Promise<ResultType<Tag[]>>;
 }
 export default Client;
 export { ChecklistItem, Comment, HistoryItem, Project, Section, Tag, Task, User, UserWithPassword, };

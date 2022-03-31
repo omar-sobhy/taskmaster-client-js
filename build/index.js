@@ -296,6 +296,24 @@ class Client {
             }
         });
     }
+    getTagsData(tagIds) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.get(`${this.basePath}/tags`, {
+                    params: {
+                        tag: tagIds,
+                    },
+                });
+                return {
+                    type: 'success',
+                    data: response.data.tags,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=index.js.map
