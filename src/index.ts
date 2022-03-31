@@ -326,6 +326,23 @@ class Client {
       return handleError(error);
     }
   }
+
+  async getTagsData(tagIds: string[]): Promise<ResultType<Tag[]>> {
+    try {
+      const response = await this.axios.get(`${this.basePath}/tags`, {
+        params: {
+          tag: tagIds,
+        },
+      });
+
+      return {
+        type: 'success',
+        data: response.data.tags,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 }
 
 export default Client;
