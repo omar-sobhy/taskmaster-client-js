@@ -301,7 +301,7 @@ class Client {
             try {
                 const response = yield this.axios.get(`${this.basePath}/tags`, {
                     params: {
-                        tag: tagIds,
+                        tagId: tagIds,
                     },
                 });
                 return {
