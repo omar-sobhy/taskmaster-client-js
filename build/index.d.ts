@@ -18,7 +18,7 @@ interface ErrorResult<T> {
         data?: T;
     };
 }
-declare type ResultType<T, E = never> = SuccessResult<T> | ErrorResult<E>;
+type ResultType<T, E = never> = SuccessResult<T> | ErrorResult<E>;
 interface ClientOptions {
     authorizationCookie?: string;
 }

@@ -343,6 +343,23 @@ class Client {
       return handleError(error);
     }
   }
+
+  async createTag(projectId: string, name: string): Promise<ResultType<Tag>> {
+    try {
+      const response = await this.axios.post(`${this.basePath}/${projectId}/tags`, {
+        params: {
+          name,
+        },
+      });
+
+      return {
+        type: 'success',
+        data: response.data.tag,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 }
 
 export default Client;
