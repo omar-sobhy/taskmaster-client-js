@@ -314,6 +314,24 @@ class Client {
             }
         });
     }
+    createTag(projectId, name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.post(`${this.basePath}/${projectId}/tags`, {
+                    params: {
+                        name,
+                    },
+                });
+                return {
+                    type: 'success',
+                    data: response.data.tag,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=index.js.map
