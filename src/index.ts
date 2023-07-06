@@ -360,6 +360,21 @@ class Client {
       return handleError(error);
     }
   }
+
+  async updateTag(tagId: string, name: string): Promise<ResultType<Tag>> {
+    try {
+      const response = await this.axios.post(`${this.basePath}/tags/${tagId}`, {
+        name,
+      });
+
+      return {
+        type: 'success',
+        data: response.data.tag,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 }
 
 export default Client;
