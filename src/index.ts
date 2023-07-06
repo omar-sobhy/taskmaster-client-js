@@ -269,12 +269,13 @@ class Client {
   async updateTask(
     taskId: string,
     {
-      assignee, dueDate, name, description,
+      assignee, dueDate, name, description, tag,
     }: Partial<{
       assignee: string | null,
       dueDate: string | null,
       name: string,
-      description: string | null
+      description: string | null,
+      tag: string | null,
     }>,
   ) : Promise<ResultType<Task>> {
     try {
@@ -283,6 +284,7 @@ class Client {
       if (dueDate || dueDate === null) data.dueDate = dueDate;
       if (name || name === null) data.name = name;
       if (description || description === null) data.description = description;
+      if (tag || tag === null) data.tag = tag;
 
       const response = await this.axios.patch(`${this.basePath}/tasks/${taskId}`, data);
 
