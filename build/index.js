@@ -318,9 +318,7 @@ class Client {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield this.axios.post(`${this.basePath}/projects/${projectId}/tags`, {
-                    params: {
-                        name,
-                    },
+                    name,
                 });
                 return {
                     type: 'success',
