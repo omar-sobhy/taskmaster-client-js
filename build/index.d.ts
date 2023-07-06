@@ -47,12 +47,12 @@ declare class Client {
     createTask(sectionId: string, name: string, dueDate?: string, assignee?: string): Promise<ResultType<Task>>;
     getTasks(sectionId: string): Promise<ResultType<Task[]>>;
     getTaskData(taskId: string): Promise<ResultType<Task>>;
-    updateTask(taskId: string, { assignee, dueDate, name, description, tag, }: Partial<{
+    updateTask(taskId: string, { assignee, dueDate, name, description, tags, }: Partial<{
         assignee: string | null;
         dueDate: string | null;
         name: string;
         description: string | null;
-        tag: string | null;
+        tags: string[] | null;
     }>): Promise<ResultType<Task>>;
     addComment(taskId: string, comment: string): Promise<ResultType<Comment>>;
     getComments(commentIds: string[]): Promise<ResultType<Comment[]>>;

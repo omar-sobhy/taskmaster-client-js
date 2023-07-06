@@ -239,7 +239,7 @@ class Client {
             }
         });
     }
-    updateTask(taskId, { assignee, dueDate, name, description, tag, }) {
+    updateTask(taskId, { assignee, dueDate, name, description, tags, }) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = {};
@@ -251,8 +251,8 @@ class Client {
                     data.name = name;
                 if (description || description === null)
                     data.description = description;
-                if (tag || tag === null)
-                    data.tag = tag;
+                if (tags || tags === null)
+                    data.tags = tags;
                 const response = yield this.axios.patch(`${this.basePath}/tasks/${taskId}`, data);
                 return {
                     type: 'success',
