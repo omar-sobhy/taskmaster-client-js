@@ -346,7 +346,7 @@ class Client {
 
   async createTag(projectId: string, name: string): Promise<ResultType<Tag>> {
     try {
-      const response = await this.axios.post(`${this.basePath}/${projectId}/tags`, {
+      const response = await this.axios.post(`${this.basePath}/projects/${projectId}/tags`, {
         params: {
           name,
         },
