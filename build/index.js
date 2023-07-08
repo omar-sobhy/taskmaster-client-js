@@ -332,11 +332,12 @@ class Client {
             }
         });
     }
-    updateTag(tagId, name) {
+    updateTag(tagId, name, colour) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const response = yield this.axios.post(`${this.basePath}/tags/${tagId}`, {
                     name,
+                    colour,
                 });
                 return {
                     type: 'success',
