@@ -348,6 +348,20 @@ class Client {
             }
         });
     }
+    deleteTag(tagId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.delete(`${this.basePath}/tags/${tagId}`);
+                return {
+                    type: 'success',
+                    data: response.data.tag,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=index.js.map

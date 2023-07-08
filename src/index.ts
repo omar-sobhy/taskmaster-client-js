@@ -375,10 +375,23 @@ class Client {
       return handleError(error);
     }
   }
+
+  async deleteTag(tagId: string): Promise<ResultType<Tag>> {
+    try {
+      const response = await this.axios.delete(`${this.basePath}/tags/${tagId}`);
+
+      return {
+        type: 'success',
+        data: response.data.tag,
+      };
+    } catch (error) {
+      return handleError(error);
+    }
+  }
 }
 
 export default Client;
 
 export {
-  ChecklistItem, Comment, HistoryItem, Project, Section, Tag, Task, User, UserWithPassword,
+  ClientOptions, ChecklistItem, Comment, HistoryItem, Project, Section, Tag, Task, User, UserWithPassword,
 };
