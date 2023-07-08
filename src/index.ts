@@ -26,7 +26,7 @@ interface ErrorResult<T> {
 type ResultType<T, E = never> = SuccessResult<T> | ErrorResult<E>;
 
 function handleError(error: unknown): ErrorResult<never> {
-  console.log('error', error);
+  console.error('error', error);
   if (!AxiosStatic.isAxiosError(error)) {
     return {
       type: 'error',
@@ -97,7 +97,6 @@ class Client {
         password,
       });
 
-      console.log('hello', response.headers);
       return {
         type: 'success',
         data: {
