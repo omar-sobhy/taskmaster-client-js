@@ -361,7 +361,7 @@ class Client {
     }
   }
 
-  async updateTag(tagId: string, name: string, colour: string): Promise<ResultType<Tag>> {
+  async updateTag(tagId: string, name?: string, colour?: string): Promise<ResultType<Tag>> {
     try {
       const response = await this.axios.post(`${this.basePath}/tags/${tagId}`, {
         name,

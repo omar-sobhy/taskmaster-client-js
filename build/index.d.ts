@@ -58,7 +58,7 @@ declare class Client {
     getComments(commentIds: string[]): Promise<ResultType<Comment[]>>;
     getTagsData(tagIds: string[]): Promise<ResultType<Tag[]>>;
     createTag(projectId: string, name: string): Promise<ResultType<Tag>>;
-    updateTag(tagId: string, name: string, colour: string): Promise<ResultType<Tag>>;
+    updateTag(tagId: string, name?: string, colour?: string): Promise<ResultType<Tag>>;
     deleteTag(tagId: string): Promise<ResultType<Tag>>;
 }
 export default Client;
