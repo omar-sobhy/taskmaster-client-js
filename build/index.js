@@ -38,7 +38,6 @@ class Client {
         this.basePath = basePath;
         this.options = options;
         const jar = new tough_cookie_1.CookieJar();
-        console.log('Options', options);
         if (this.options.authorizationCookie) {
             jar.setCookieSync(`Authorization=${this.options.authorizationCookie}`, `${this.basePath}/`);
         }

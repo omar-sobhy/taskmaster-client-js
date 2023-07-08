@@ -62,7 +62,6 @@ class Client {
 
     const jar = new CookieJar();
 
-    console.log('Options', options);
     if (this.options.authorizationCookie) {
       jar.setCookieSync(`Authorization=${this.options.authorizationCookie}`, `${this.basePath}/`);
     }
