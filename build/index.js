@@ -17,7 +17,7 @@ const axios_cookiejar_support_1 = require("axios-cookiejar-support");
 const tough_cookie_1 = require("tough-cookie");
 function handleError(error) {
     var _a, _b, _c;
-    console.log('error', error);
+    console.error('error', error);
     if (!axios_1.default.isAxiosError(error)) {
         return {
             type: 'error',
@@ -71,7 +71,6 @@ class Client {
                     username,
                     password,
                 });
-                console.log('hello', response.headers);
                 return {
                     type: 'success',
                     data: Object.assign({}, response.data.user),
