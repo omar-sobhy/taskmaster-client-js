@@ -211,8 +211,11 @@ class Client {
     }
     getTasks(sectionId) {
         return __awaiter(this, void 0, void 0, function* () {
+            const url = sectionId
+                ? `${this.basePath}/sections/${sectionId}/tasks`
+                : `${this.basePath}/tasks`;
             try {
-                const response = yield this.axios.get(`${this.basePath}/sections/${sectionId}/tasks`);
+                const response = yield this.axios.get(url);
                 return {
                     type: 'success',
                     data: response.data.tasks,

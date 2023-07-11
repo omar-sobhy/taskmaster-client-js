@@ -239,9 +239,13 @@ class Client {
     }
   }
 
-  async getTasks(sectionId: string): Promise<ResultType<Task[]>> {
+  async getTasks(sectionId?: string): Promise<ResultType<Task[]>> {
+    const url = sectionId
+      ? `${this.basePath}/sections/${sectionId}/tasks`
+      : `${this.basePath}/tasks`;
+
     try {
-      const response = await this.axios.get(`${this.basePath}/sections/${sectionId}/tasks`);
+      const response = await this.axios.get(url);
 
       return {
         type: 'success',

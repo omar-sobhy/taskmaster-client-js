@@ -45,7 +45,7 @@ declare class Client {
     }>): Promise<ResultType<Section>>;
     createProject(name: string, background: string): Promise<ResultType<Project>>;
     createTask(sectionId: string, name: string, dueDate?: string, assignee?: string): Promise<ResultType<Task>>;
-    getTasks(sectionId: string): Promise<ResultType<Task[]>>;
+    getTasks(sectionId?: string): Promise<ResultType<Task[]>>;
     getTaskData(taskId: string): Promise<ResultType<Task>>;
     updateTask(taskId: string, { assignee, dueDate, name, description, tags, }: Partial<{
         assignee: string | null;
