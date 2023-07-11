@@ -361,6 +361,20 @@ class Client {
             }
         });
     }
+    deleteSection(sectionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.axios.delete(`${this.basePath}/sections/${sectionId}`);
+                return {
+                    type: 'success',
+                    data: response.data.section,
+                };
+            }
+            catch (error) {
+                return handleError(error);
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=index.js.map

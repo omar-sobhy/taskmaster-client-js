@@ -60,6 +60,7 @@ declare class Client {
     createTag(projectId: string, name: string): Promise<ResultType<Tag>>;
     updateTag(tagId: string, name?: string, colour?: string): Promise<ResultType<Tag>>;
     deleteTag(tagId: string): Promise<ResultType<Tag>>;
+    deleteSection(sectionId: string): Promise<ResultType<Section>>;
 }
 export default Client;
 export { ClientOptions, ChecklistItem, Comment, HistoryItem, Project, Section, Tag, Task, User, UserWithPassword, };
