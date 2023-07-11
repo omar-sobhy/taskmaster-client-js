@@ -33,6 +33,7 @@ declare class Client {
     getProject(projectId: string): Promise<ResultType<Project>>;
     getUserData(userIds: string[]): Promise<ResultType<User[]>>;
     getProjectSections(projectId: string): Promise<ResultType<Section[]>>;
+    getSection(sectionId: string): Promise<ResultType<Section>>;
     createSections(projectId: string, sections: {
         name: string;
         colour: string;
