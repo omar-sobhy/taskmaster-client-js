@@ -11,16 +11,16 @@ import HistoryItem from './entities/HistoryItem';
 import Tag from './entities/Tag';
 
 interface SuccessResult<T> {
-  type: 'success'
-  data: T
+  type: 'success';
+  data: T;
 }
 
 interface ErrorResult<T> {
-  type: 'error'
+  type: 'error';
   error: {
-    message: string
-    data?: T
-  }
+    message: string;
+    data?: T;
+  };
 }
 
 type ResultType<T, E = never> = SuccessResult<T> | ErrorResult<E>;
@@ -45,7 +45,7 @@ function handleError(error: unknown): ErrorResult<never> {
 }
 
 interface ClientOptions {
-  authorizationCookie?: string
+  authorizationCookie?: string;
 }
 
 class Client {
@@ -66,10 +66,12 @@ class Client {
       jar.setCookieSync(`Authorization=${this.options.authorizationCookie}`, `${this.basePath}/`);
     }
 
-    this.axios = wrapper(AxiosStatic.create({
-      jar,
-      withCredentials: true,
-    }));
+    this.axios = wrapper(
+      AxiosStatic.create({
+        jar,
+        withCredentials: true,
+      }),
+    );
   }
 
   async signup(username: string, password: string, email: string): Promise<ResultType<User>> {
@@ -89,8 +91,7 @@ class Client {
     }
   }
 
-  async login(username: string, password: string):
-  Promise<ResultType<User>> {
+  async login(username: string, password: string): Promise<ResultType<User>> {
     try {
       const response = await this.axios.post(`${this.basePath}/users/login`, {
         username,
@@ -164,7 +165,7 @@ class Client {
 
   async createSections(
     projectId: string,
-    sections: { name: string, colour: string, icon: string }[],
+    sections: { name: string; colour: string; icon: string }[],
   ): Promise<ResultType<Section[]>> {
     try {
       const response = await this.axios.post(`${this.basePath}/projects/${projectId}/sections`, {
@@ -182,7 +183,7 @@ class Client {
 
   async updateSection(
     sectionId: string,
-    { name, colour, icon }: Partial<{ name: string, colour: string, icon: string }>,
+    { name, colour, icon }: Partial<{ name: string; colour: string; icon: string }>,
   ): Promise<ResultType<Section>> {
     try {
       const response = await this.axios.patch(`${this.basePath}/sections/${sectionId}`, {
@@ -267,15 +268,19 @@ class Client {
   async updateTask(
     taskId: string,
     {
-      assignee, dueDate, name, description, tags,
+      assignee,
+      dueDate,
+      name,
+      description,
+      tags,
     }: Partial<{
-      assignee: string | null,
-      dueDate: string | null,
-      name: string,
-      description: string | null,
-      tags: string[] | null,
+      assignee: string | null;
+      dueDate: string | null;
+      name: string;
+      description: string | null;
+      tags: string[] | null;
     }>,
-  ) : Promise<ResultType<Task>> {
+  ): Promise<ResultType<Task>> {
     try {
       const data: Record<string, string | string[] | null> = {};
       if (assignee || assignee === null) data.assignee = assignee;
@@ -392,5 +397,14 @@ class Client {
 export default Client;
 
 export {
-  ClientOptions, ChecklistItem, Comment, HistoryItem, Project, Section, Tag, Task, User, UserWithPassword,
+  ClientOptions,
+  ChecklistItem,
+  Comment,
+  HistoryItem,
+  Project,
+  Section,
+  Tag,
+  Task,
+  User,
+  UserWithPassword,
 };
