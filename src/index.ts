@@ -165,7 +165,7 @@ class Client {
 
   async getSection(sectionId: string): Promise<ResultType<Section>> {
     try {
-      const response = await this.axios.post(`${this.basePath}/sections/${sectionId}`);
+      const response = await this.axios.get(`${this.basePath}/sections/${sectionId}`);
 
       return {
         type: 'success',

@@ -142,7 +142,7 @@ class Client {
     getSection(sectionId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield this.axios.post(`${this.basePath}/sections/${sectionId}`);
+                const response = yield this.axios.get(`${this.basePath}/sections/${sectionId}`);
                 return {
                     type: 'success',
                     data: response.data.section,
