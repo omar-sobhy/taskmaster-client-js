@@ -11,5 +11,6 @@ interface Task {
     comments: string[];
     historyItems: string[];
     tags: string[];
+    section: string;
 }
 export default Task;

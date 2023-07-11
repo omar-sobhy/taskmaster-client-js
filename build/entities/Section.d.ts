@@ -4,5 +4,6 @@ interface Section {
     icon: string;
     colour: string;
     tasks: Array<string>;
+    project: string;
 }
 export default Section;
