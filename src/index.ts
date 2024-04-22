@@ -138,7 +138,9 @@ class Client {
   async getUserData(userIds: string[]): Promise<ResultType<User[]>> {
     try {
       const response = await this.axios.get(`${this.basePath}/users`, {
-        params: userIds,
+        params: {
+          userIds,
+        },
       });
 
       return {
