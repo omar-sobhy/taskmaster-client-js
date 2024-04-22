@@ -112,8 +112,10 @@ class Client {
     getUserData(userIds) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const response = yield this.axios.post(`${this.basePath}/users`, {
-                    userIds,
+                const response = yield this.axios.get(`${this.basePath}/users`, {
+                    params: {
+                        userIds,
+                    },
                 });
                 return {
                     type: 'success',
